@@ -93,12 +93,9 @@ func (s *Server) authRequest(ctx context.Context, icr *securityapi.IstioCertific
 	}
 
 	// if the csr contains any other options set, error
-	if len(csr.DNSNames) > 0 || len(csr.IPAddresses) > 0 ||
-		len(csr.Subject.CommonName) > 0 || len(csr.EmailAddresses) > 0 {
+	if len(csr.IPAddresses) > 0 || len(csr.EmailAddresses) > 0 {
 		log.Error(errors.New("forbidden extensions"), "",
-			"dns", csr.DNSNames,
 			"ips", csr.IPAddresses,
-			"common-name", csr.Subject.CommonName,
 			"emails", csr.EmailAddresses)
 
 		return identities, false

@@ -38,6 +38,7 @@ const (
 	//      uniformResourceIdentifier       [6]     IA5String,
 	// }
 	asn1TagURI = 6
+	asn1TagDNS = 2 // Tag for DNS
 )
 
 var (
@@ -162,8 +163,8 @@ func validateSubjectAltNameExtension(ext pkix.Extension) error {
 			return err
 		}
 
-		// Only URI SANs are permitted for istio certificates
-		if rawValue.Tag != asn1TagURI {
+		// Only URI SANs and DNS SANs are permitted for istio certificates
+		if rawValue.Tag != asn1TagURI && rawValue.Tag != asn1TagDNS {
 			return fmt.Errorf("non uri san extension given: %s", rawValue.Bytes)
 		}
 	}
